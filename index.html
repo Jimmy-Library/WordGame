@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>考点词真经 · 同义替换全垒打!</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=ZCOOL+KuaiLe&display=swap');
@@ -140,75 +140,6 @@ canvas#fx{position:absolute;inset:0;z-index:32;pointer-events:none}
   color:var(--ink);border-radius:999px;padding:6px 16px;cursor:pointer;font-size:14px;font-family:inherit;font-weight:800;
   box-shadow:0 3px 0 rgba(31,48,70,.15)}
 .credit{position:absolute;right:22px;bottom:14px;color:rgba(31,48,70,.55);font-size:14px;z-index:45;letter-spacing:1px;font-weight:800}
-
-/* ===== 手机竖屏全屏适配 ===== */
-body.mobile-portrait{overflow:auto!important}
-body.mobile-portrait #wrap{position:fixed;inset:0;height:100vh;align-items:stretch;justify-content:stretch;padding:0}
-body.mobile-portrait #stage{width:100vw;height:calc(100vh / var(--mscale,1));border-radius:0;box-shadow:none;overflow-y:auto}
-body.mobile-portrait .overlay{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 12px;justify-content:flex-start;padding-top:40px}
-body.mobile-portrait .overlay .panel{max-height:85vh;overflow-y:auto;width:95%;max-width:420px}
-
-/* --- HUD 顶部紧凑栏 --- */
-body.mobile-portrait #hud{flex-wrap:wrap;padding:10px 12px;gap:6px;font-size:14px;position:sticky;top:0;background:rgba(126,200,248,.92);z-index:30}
-body.mobile-portrait .pill{padding:5px 10px;font-size:13px;border-radius:14px}
-body.mobile-portrait .pill b{font-size:16px}
-body.mobile-portrait .ld{width:10px;height:10px;border-width:2px}
-body.mobile-portrait #combo{right:12px;top:52px;font-size:20px}
-body.mobile-portrait .hbtn{padding:6px 12px;font-size:13px;min-height:36px}
-
-/* --- 选项按钮：底部竖排，大触控区 --- */
-body.mobile-portrait #opts{flex-direction:column;align-items:center;gap:10px;bottom:16px;left:8%;right:8%;width:84%;position:sticky;bottom:0;padding-bottom:env(safe-area-inset-bottom,10px);background:linear-gradient(transparent,rgba(70,181,79,.4) 30%);padding-top:12px}
-body.mobile-portrait .opt{width:100%;min-height:56px;padding:14px 16px;font-size:20px;border-radius:16px;letter-spacing:0}
-body.mobile-portrait .opt .key{font-size:13px;padding:2px 8px;margin-right:8px}
-
-/* --- 单词球：保持清晰可读 --- */
-body.mobile-portrait #wordball .ball{width:100px;height:100px}
-body.mobile-portrait #wordball .ball::before,body.mobile-portrait #wordball .ball::after{width:72px;height:72px;border-width:3px}
-body.mobile-portrait #wordball .w{font-size:18px}
-body.mobile-portrait #wordball .zh{font-size:13px;padding:3px 14px}
-
-/* --- 好球区 --- */
-body.mobile-portrait #zone{width:150px;height:130px}
-
-/* --- 机器人裁判：缩到右上角 --- */
-body.mobile-portrait #robo{right:10px;top:60px}
-body.mobile-portrait #robo svg{width:80px}
-body.mobile-portrait #verdict{right:6px;top:50px;font-size:18px;min-width:100px;padding:6px 12px;border-radius:12px}
-
-/* --- 装饰元素缩小 --- */
-body.mobile-portrait #sun{left:12px;top:50px;width:50px;height:50px}
-body.mobile-portrait #sun .core{inset:8px}
-body.mobile-portrait #sun .rays line{stroke-width:10}
-body.mobile-portrait #cl1{top:55px}
-body.mobile-portrait #cl2{top:90px}
-body.mobile-portrait #cl1 svg{width:80px}
-body.mobile-portrait #cl2 svg{width:60px}
-
-/* --- 横幅 / 浮动得分 --- */
-body.mobile-portrait #banner{font-size:52px;letter-spacing:3px}
-body.mobile-portrait .fscore{font-size:30px}
-
-/* --- 开始界面 --- */
-body.mobile-portrait .overlay h1{font-size:30px;line-height:1.3}
-body.mobile-portrait .overlay .sub{font-size:14px;line-height:1.6;margin:8px 0}
-body.mobile-portrait .badge{font-size:13px;padding:5px 14px;letter-spacing:1px;margin-bottom:10px}
-body.mobile-portrait #cats{flex-direction:column;gap:8px;margin:6px 0 12px;width:90%}
-body.mobile-portrait .cat{width:100%;min-height:44px;font-size:15px;padding:10px 16px;text-align:center}
-body.mobile-portrait .btn{min-height:50px;font-size:18px;padding:14px 24px;width:100%;letter-spacing:1px}
-body.mobile-portrait .btn.small{min-height:44px;font-size:14px;padding:10px 18px}
-body.mobile-portrait .bestpill{font-size:14px;padding:6px 16px}
-
-/* --- 结算界面 --- */
-body.mobile-portrait .grade{font-size:72px}
-body.mobile-portrait #review{max-height:30vh;gap:6px;width:95%}
-body.mobile-portrait .rv{font-size:13px;padding:5px 10px}
-
-/* --- 暂停界面 --- */
-body.mobile-portrait #pauseov .panel h1{font-size:32px}
-
-/* --- 底部控件 --- */
-body.mobile-portrait #mute{font-size:12px;padding:5px 12px;left:8px;bottom:8px;position:fixed;z-index:50}
-body.mobile-portrait .credit{display:none}
 </style>
 </head>
 <body>
@@ -479,11 +410,9 @@ function cheer(){if(muted)return;const a=ac(),n=a.sampleRate*.9,b=a.createBuffer
 function buzz(){beep(160,.3,'sawtooth',.18,-60);beep(110,.34,'square',.12)}
 /* ============ 粒子特效 ============ */
 const fx=document.getElementById('fx'),fc=fx.getContext('2d');let parts=[];
-function resizeCanvas(){const k=stage.clientWidth/1280;fx.width=1280*k;fx.height=720*k}
-resizeCanvas();addEventListener('resize',resizeCanvas);
 function burst(x,y,colors,n=50,pw=9){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=3+Math.random()*8;
   parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-3,life:1,c:colors[i%colors.length],s:3+Math.random()*pw})}}
-(function loop(){fc.clearRect(0,0,fx.width,fx.height);
+(function loop(){fc.clearRect(0,0,1280,720);
   parts=parts.filter(p=>p.life>0);
   for(const p of parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.life-=.022;
     fc.globalAlpha=Math.max(p.life,0);fc.fillStyle=p.c;
@@ -551,13 +480,11 @@ function nextPitch(){
   beep(620,.08,'sine',.1);
   cancelAnimationFrame(raf);raf=requestAnimationFrame(fly);
 }
-function ms(){return stage.clientWidth/1280}
 function fly(now){
   if(!playing||!accept||paused)return;
   const p=Math.min((now-t0)/dur,1);
   const ease=p*p*(3-2*p);
-  const k=ms();
-  const x=640*k,y=(300+ease*215)*k,s=(.32+ease*.78)*k;
+  const x=640,y=300+ease*215,s=.32+ease*.78;
   ballwrap.style.transform=`translate(${x}px,${y}px) scale(${s})`;
   if(p>=1){strikeCall();return}
   raf=requestAnimationFrame(fly);
@@ -565,19 +492,18 @@ function fly(now){
 function swing(btn){
   if(!accept||paused)return;accept=false;cancelAnimationFrame(raf);
   const ok=btn.dataset.ok==='1';
-  const k=ms();
   [...opts.children].forEach(b=>{if(b.dataset.ok==='1')b.classList.add('good')});
   if(ok){
     combo++;hits++;best=Math.max(best,combo);
     const gain=100*combo;score+=gain;
-    crack();burst(640*k,500*k,CONF);
+    crack();burst(640,500,CONF);
     eye('#19c8a6');verdict('HIT! 安打!','#19c8a6','#fff');
-    fscorePop(640*k,430*k,'+'+gain);
+    fscorePop(640,430,'+'+gain);
     ballwrap.style.transition='transform .55s ease-in';
-    ballwrap.style.transform=`translate(${(340+Math.random()*600)*k}px,${-140*k}px) scale(${.25*k}) rotate(540deg)`;
+    ballwrap.style.transform=`translate(${340+Math.random()*600}px,-140px) scale(.25) rotate(540deg)`;
     setTimeout(()=>{ballwrap.style.transition='';ballwrap.style.display='none'},560);
-    if(combo%5===0){score+=500;banner('🎉 HOME RUN! +500');cheer();burst(640*k,330*k,CONF,90,12);
-      level++;eye('#ffc93c');fscorePop(760*k,360*k,'+500')}
+    if(combo%5===0){score+=500;banner('🎉 HOME RUN! +500');cheer();burst(640,330,CONF,90,12);
+      level++;eye('#ffc93c');fscorePop(760,360,'+500')}
     hud();
     schedule(nextPitch,combo%5===0?1500:850);
   }else{
@@ -671,41 +597,8 @@ document.addEventListener('keydown',e=>{
   if(i!==undefined&&opts.children[i])swing(opts.children[i]);
 });
 updateBest();
-function fit(){
-  const w=innerWidth,h=innerHeight;
-  const isPortrait=h>w;
-  const isMobile=w<=768;
-  document.body.classList.toggle('mobile-portrait',isPortrait&&isMobile);
-  if(isPortrait&&isMobile){
-    // 手机竖屏：不缩放，用 scale(1)，CSS 接管布局
-    stage.style.transform='scale(1)';
-    stage.style.width='100vw';
-    stage.style.height=h+'px';
-    document.body.style.overflow='auto';
-    document.documentElement.style.overflow='auto';
-  }else{
-    // 桌面/横屏：等比缩放填满
-    const s=Math.min(w/1280,h/720);
-    stage.style.transform=`scale(${s})`;
-    stage.style.width='1280px';
-    stage.style.height='720px';
-    document.body.style.overflow='hidden';
-    document.documentElement.style.overflow='hidden';
-  }
-}
-addEventListener('resize',fit);
-addEventListener('orientationchange',()=>setTimeout(fit,100));
-fit();
-/* Prevent double-tap zoom on mobile */
-document.addEventListener('touchstart',function(e){
-  if(e.touches.length>1)e.preventDefault();
-},{passive:false});
-let lastTap=0;
-document.addEventListener('touchend',function(e){
-  const now=Date.now();
-  if(now-lastTap<300)e.preventDefault();
-  lastTap=now;
-},{passive:false});
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`scale(${s})`}
+addEventListener('resize',fit);fit();
 </script>
 </body>
 </html>
