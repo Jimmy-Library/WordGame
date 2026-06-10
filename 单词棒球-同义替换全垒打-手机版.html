@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#7ec8f8">
+<title>考点词真经 · 同义替换全垒打!(手机版)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=ZCOOL+KuaiLe&display=swap');
+:root{
+  --orange:#ff8a3d;--pink:#ff5d8f;--teal:#19c8a6;--purple:#8e6bff;--yellow:#ffc93c;
+  --sky1:#8fd7ff;--sky2:#c9efff;--grass:#5ecb62;--sand:#f5c97c;
+  --ink:#1f3046;--paper:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#5db4ec;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;
+  font-family:"Baloo 2","ZCOOL KuaiLe","YouYuan","幼圆","Microsoft YaHei","PingFang SC",Arial,sans-serif}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:420px;height:840px;transform-origin:center;border-radius:14px;overflow:hidden;
+  box-shadow:0 18px 50px rgba(31,48,70,.35);
+  background:linear-gradient(var(--sky1) 0%, var(--sky2) 44%, #eafff0 53%, var(--grass) 55%, #46b54f 100%)}
+/* ===== 太阳 ===== */
+#sun{position:absolute;left:16px;top:118px;width:64px;height:64px;z-index:2}
+#sun .core{position:absolute;inset:11px;border-radius:50%;background:radial-gradient(circle at 38% 34%,#fff6c8,#ffd95e 60%,#ffb52e);
+  box-shadow:0 0 30px rgba(255,201,60,.85)}
+#sun .rays{position:absolute;inset:0;animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ===== 云 ===== */
+.cloud{position:absolute;z-index:2;filter:drop-shadow(0 4px 8px rgba(31,48,70,.08))}
+@keyframes drift1{from{transform:translateX(-160px)}to{transform:translateX(560px)}}
+@keyframes drift2{from{transform:translateX(560px)}to{transform:translateX(-200px)}}
+#cl1{top:150px;animation:drift1 46s linear infinite}
+#cl2{top:215px;animation:drift2 64s linear infinite}
+/* ===== 抖动 ===== */
+@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(5px,-4px)}60%{transform:translate(-3px,-3px)}80%{transform:translate(4px,3px)}}
+#stage.shake{animation:shake .35s linear}
+/* ===== 按钮 ===== */
+.btn{border:none;border-radius:999px;padding:13px 30px;font-size:18px;cursor:pointer;font-family:inherit;
+  font-weight:800;letter-spacing:2px;color:#fff;transition:.15s;box-shadow:0 5px 0 rgba(31,48,70,.18);touch-action:manipulation}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(31,48,70,.18);filter:brightness(1.07)}
+.btn.small{font-size:14px;padding:8px 18px}
+.bo{background:linear-gradient(180deg,#ffa45e,var(--orange))}
+.bp{background:linear-gradient(180deg,#ff7fa8,var(--pink))}
+.bt{background:linear-gradient(180deg,#3fe0bf,var(--teal))}
+.bv{background:linear-gradient(180deg,#a98eff,var(--purple))}
+/* ===== 覆盖层 ===== */
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:40;
+  background:linear-gradient(rgba(143,215,255,.84),rgba(201,239,255,.9));backdrop-filter:blur(4px);text-align:center;color:var(--ink);
+  padding:16px 14px;overflow-y:auto}
+.overlay h1{font-size:27px;letter-spacing:1px;color:var(--ink);text-shadow:0 2px 0 #fff;line-height:1.3}
+.rainbow{background:linear-gradient(90deg,var(--orange),var(--pink),var(--purple),var(--teal));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.overlay .sub{font-size:13.5px;line-height:1.8;margin:10px 0 4px;color:#3a567a}
+.badge{display:inline-block;background:#fff;border:3px solid var(--yellow);color:var(--orange);font-weight:800;
+  border-radius:999px;padding:5px 16px;font-size:13px;letter-spacing:1px;margin-bottom:12px;box-shadow:0 3px 0 rgba(31,48,70,.12)}
+/* 词库选择 */
+#cats{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px;justify-content:center;max-width:360px}
+.cat{border:3px solid #fff;background:rgba(255,255,255,.6);color:var(--ink);border-radius:999px;padding:9px 16px;
+  font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;transition:.15s;box-shadow:0 3px 0 rgba(31,48,70,.1);touch-action:manipulation}
+.cat:active{transform:translateY(1px)}
+.cat.sel{background:var(--purple);border-color:#fff;color:#fff;box-shadow:0 3px 0 rgba(110,80,220,.45)}
+#spds{display:flex;flex-direction:column;gap:10px;width:78%;max-width:300px}
+#spds .btn{width:100%}
+/* ===== HUD ===== */
+#hud{position:absolute;top:0;left:0;right:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  padding:calc(8px + env(safe-area-inset-top)) 10px 6px;z-index:20;font-size:13px;color:var(--ink)}
+.pill{background:rgba(255,255,255,.88);border-radius:999px;padding:4px 11px;box-shadow:0 3px 8px rgba(31,48,70,.12);font-weight:800;white-space:nowrap}
+.pill b{font-size:16px;color:var(--orange)}
+.dotrow{display:inline-flex;gap:4px;vertical-align:middle}
+.ld{width:11px;height:11px;border-radius:50%;border:2.5px solid var(--pink);display:inline-block;background:#fff}
+.ld.on{background:var(--pink);box-shadow:0 0 6px var(--pink)}
+#combo{position:absolute;left:14px;top:185px;color:#fff;font-size:21px;font-weight:800;z-index:20;
+  text-shadow:0 2px 0 var(--orange),0 0 14px rgba(255,138,61,.65);opacity:0;transition:.2s;letter-spacing:1px}
+/* ===== 机器人裁判 ===== */
+#robo{position:absolute;right:10px;top:200px;z-index:15}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 4px var(--ec,#19c8a6))}50%{filter:drop-shadow(0 0 14px var(--ec,#19c8a6))}}
+#robo .eyec{animation:glow 1.6s infinite}
+#verdict{position:absolute;right:8px;top:150px;z-index:30;min-width:128px;text-align:center;
+  padding:8px 16px;border-radius:14px;font-size:21px;font-weight:800;opacity:0;transform:scale(.5);transition:.18s;
+  box-shadow:0 5px 0 rgba(31,48,70,.15)}
+#verdict.show{opacity:1;transform:scale(1)}
+/* ===== 单词球 ===== */
+#ballwrap{position:absolute;z-index:18;left:0;top:0;will-change:transform;pointer-events:none}
+#wordball{display:flex;flex-direction:column;align-items:center;gap:6px;transform:translate(-50%,-50%)}
+#wordball .ball{width:112px;height:112px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;
+  background:radial-gradient(circle at 35% 30%,#ffffff,#f0f0f0 65%,#cfcfcf);
+  box-shadow:0 10px 24px rgba(31,48,70,.35),inset 0 -5px 12px rgba(31,48,70,.08)}
+#wordball .ball::before,#wordball .ball::after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;
+  border:3px dashed transparent;border-left-color:#ff5d5d;border-right-color:#ff5d5d}
+#wordball .ball::before{transform:rotate(28deg)} #wordball .ball::after{transform:rotate(-28deg)}
+#wordball .w{font-size:20px;font-weight:800;color:var(--ink);z-index:2;padding:0 8px;text-align:center;line-height:1.08}
+#wordball .zh{color:#fff;font-size:13.5px;font-weight:800;background:var(--purple);padding:3px 14px;border-radius:999px;
+  box-shadow:0 3px 0 rgba(110,80,220,.4);max-width:230px;text-align:center}
+/* ===== 好球区 ===== */
+#zone{position:absolute;left:50%;top:498px;transform:translateX(-50%);width:152px;height:130px;border-radius:12px;
+  border:4px dashed rgba(255,255,255,.95);background:rgba(255,255,255,.16);z-index:10;pointer-events:none;
+  box-shadow:0 0 0 4px rgba(25,200,166,.25)}
+#zone .zl{position:absolute;bottom:-26px;width:100%;text-align:center;color:#fff;font-size:12px;letter-spacing:3px;
+  font-weight:800;text-shadow:0 2px 4px rgba(31,48,70,.4)}
+/* ===== 选项球棒 ===== */
+#opts{position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom));display:flex;flex-direction:column;
+  align-items:stretch;gap:10px;z-index:25;padding:0 14px}
+.opt{width:100%;padding:13px 16px;border-radius:16px;border:none;color:#fff;font-size:21px;font-weight:800;
+  font-family:inherit;text-align:center;cursor:pointer;transition:.12s;letter-spacing:1px;
+  box-shadow:0 5px 0 rgba(31,48,70,.22);touch-action:manipulation}
+.opt:nth-child(1){background:linear-gradient(180deg,#ffa45e,var(--orange))}
+.opt:nth-child(2){background:linear-gradient(180deg,#3fe0bf,var(--teal))}
+.opt:nth-child(3){background:linear-gradient(180deg,#a98eff,var(--purple))}
+.opt:active{transform:translateY(2px);filter:brightness(1.08)}
+.opt .key{display:inline-block;background:rgba(255,255,255,.3);border-radius:8px;font-size:12px;padding:1px 8px;
+  margin-right:8px;vertical-align:3px}
+.opt.good{background:linear-gradient(180deg,#7dff9c,#27c93f)!important;color:#fff;outline:4px solid #fff}
+.opt.bad{background:linear-gradient(180deg,#ff8a8a,#f1404b)!important;animation:shake .3s}
+/* ===== 浮动得分 / 横幅 ===== */
+.fscore{position:absolute;z-index:35;font-size:30px;font-weight:800;color:#fff;pointer-events:none;
+  text-shadow:0 3px 0 var(--orange),0 0 14px rgba(255,138,61,.8);animation:rise 1s ease-out forwards}
+@keyframes rise{from{opacity:1;transform:translate(-50%,0) scale(1)}to{opacity:0;transform:translate(-50%,-100px) scale(1.4)}}
+#banner{position:absolute;left:0;right:0;top:36%;text-align:center;z-index:38;font-size:44px;font-weight:800;letter-spacing:3px;
+  background:linear-gradient(90deg,var(--orange),var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 #fff) drop-shadow(0 6px 14px rgba(255,93,143,.45));
+  opacity:0;transform:scale(.4);pointer-events:none;transition:.25s cubic-bezier(.2,1.6,.4,1)}
+#banner.show{opacity:1;transform:scale(1)}
+canvas#fx{position:absolute;inset:0;z-index:32;pointer-events:none}
+/* ===== 结算 ===== */
+#review{max-height:185px;overflow:auto;margin-top:10px;display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:380px;
+  -webkit-overflow-scrolling:touch}
+.rv{background:#fff;border:2.5px solid var(--pink);border-radius:10px;padding:5px 11px;font-size:12.5px;color:var(--ink);
+  font-weight:800;box-shadow:0 3px 0 rgba(255,93,143,.25)}
+.rv b{color:var(--orange)}
+.grade{font-size:72px;font-weight:800;line-height:1.05;
+  background:linear-gradient(180deg,var(--yellow),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 #fff) drop-shadow(0 6px 16px rgba(255,169,60,.55))}
+/* ===== 暂停 / 游戏记录 ===== */
+.hbtn{background:rgba(255,255,255,.88);border:none;border-radius:999px;padding:5px 11px;font-family:inherit;
+  font-weight:800;color:var(--ink);cursor:pointer;font-size:12px;box-shadow:0 3px 8px rgba(31,48,70,.12);transition:.15s;touch-action:manipulation}
+.hbtn:active{transform:translateY(1px);background:#fff}
+.panel{background:rgba(255,255,255,.94);border-radius:20px;padding:20px 16px;box-shadow:0 12px 36px rgba(31,48,70,.2);
+  width:100%;max-width:392px}
+.rtable{width:100%;border-collapse:collapse;font-size:11.5px;color:var(--ink)}
+.rtable th{color:#fff;background:var(--purple);padding:5px 6px;font-size:11px;white-space:nowrap}
+.rtable th:first-child{border-radius:8px 0 0 8px}.rtable th:last-child{border-radius:0 8px 8px 0}
+.rtable td{padding:5px 6px;border-bottom:2px solid #eef3fb;font-weight:800;text-align:center;white-space:nowrap}
+.rtable td.gold{color:var(--orange)}
+.bestpill{background:#fff;border:3px solid var(--yellow);border-radius:999px;padding:7px 18px;font-weight:800;
+  color:var(--ink);box-shadow:0 3px 0 rgba(31,48,70,.1);font-size:14px}
+#mute{position:absolute;left:14px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:45;background:rgba(255,255,255,.85);border:none;
+  color:var(--ink);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:800;
+  box-shadow:0 3px 0 rgba(31,48,70,.15);touch-action:manipulation}
+.credit{position:absolute;right:14px;bottom:calc(8px + env(safe-area-inset-bottom));color:rgba(31,48,70,.55);font-size:11px;z-index:45;letter-spacing:1px;font-weight:800}
+/* ===== 横屏提示 ===== */
+#rotate{display:none;position:fixed;inset:0;z-index:99;background:#1f3046;color:#fff;
+  flex-direction:column;align-items:center;justify-content:center;font-size:20px;font-weight:800;letter-spacing:2px;gap:12px;text-align:center}
+@media (orientation:landscape) and (max-height:520px){#rotate{display:flex}}
+</style>
+</head>
+<body>
+<div id="rotate">📱<br>请竖屏使用<br><span style="font-size:14px;opacity:.7">本游戏为竖屏移动端设计</span></div>
+<div id="wrap">
+<div id="stage">
+  <div id="sun"><svg class="rays" viewBox="0 0 110 110">
+    <g stroke="#ffd95e" stroke-width="7" stroke-linecap="round">
+      <line x1="55" y1="2" x2="55" y2="16"/><line x1="55" y1="94" x2="55" y2="108"/>
+      <line x1="2" y1="55" x2="16" y2="55"/><line x1="94" y1="55" x2="108" y2="55"/>
+      <line x1="17" y1="17" x2="27" y2="27"/><line x1="83" y1="83" x2="93" y2="93"/>
+      <line x1="17" y1="93" x2="27" y2="83"/><line x1="83" y1="27" x2="93" y2="17"/>
+    </g></svg><div class="core"></div></div>
+  <svg id="cl1" class="cloud" width="120" viewBox="0 0 190 70">
+    <ellipse cx="60" cy="46" rx="56" ry="22" fill="#fff"/><ellipse cx="110" cy="36" rx="46" ry="26" fill="#fff"/>
+    <ellipse cx="150" cy="50" rx="38" ry="17" fill="#fff"/></svg>
+  <svg id="cl2" class="cloud" width="92" viewBox="0 0 190 70">
+    <ellipse cx="60" cy="46" rx="56" ry="22" fill="#fff"/><ellipse cx="115" cy="38" rx="44" ry="24" fill="#fff"/></svg>
+
+  <svg style="position:absolute;inset:0;pointer-events:none" viewBox="0 0 420 840" preserveAspectRatio="none">
+    <!-- 外场草纹 -->
+    <path d="M20 840 Q210 400 400 840" fill="rgba(255,255,255,.10)"/>
+    <path d="M60 840 Q210 450 360 840" fill="rgba(46,150,60,.18)"/>
+    <!-- 内场土 -->
+    <path d="M85 840 Q210 480 335 840 Z" fill="#f5c97c"/>
+    <path d="M108 840 Q210 510 312 840 Z" fill="#efba62"/>
+    <!-- 投手丘 -->
+    <ellipse cx="210" cy="478" rx="44" ry="14" fill="#efba62" stroke="#fff" stroke-width="3"/>
+    <rect x="201" y="474" width="18" height="6" rx="3" fill="#fff"/>
+    <!-- 垒线 -->
+    <line x1="210" y1="700" x2="92" y2="572" stroke="#ffffff" stroke-width="4" stroke-dasharray="3 10"/>
+    <line x1="210" y1="700" x2="328" y2="572" stroke="#ffffff" stroke-width="4" stroke-dasharray="3 10"/>
+    <!-- 垒包 -->
+    <rect x="84" y="564" width="16" height="16" rx="3" fill="#fff" transform="rotate(45 92 572)"/>
+    <rect x="320" y="564" width="16" height="16" rx="3" fill="#fff" transform="rotate(45 328 572)"/>
+    <!-- 本垒板 -->
+    <polygon points="188,694 232,694 232,706 210,718 188,706" fill="#ffffff" stroke="#d8d8d8" stroke-width="2"/>
+    <!-- 彩旗 -->
+    <g>
+      <line x1="0" y1="104" x2="420" y2="104" stroke="rgba(255,255,255,.65)" stroke-width="3"/>
+      <polygon points="28,106 44,106 36,126" fill="#ff8a3d"/><polygon points="95,106 111,106 103,126" fill="#19c8a6"/>
+      <polygon points="162,106 178,106 170,126" fill="#ff5d8f"/><polygon points="229,106 245,106 237,126" fill="#ffc93c"/>
+      <polygon points="296,106 312,106 304,126" fill="#8e6bff"/><polygon points="363,106 379,106 371,126" fill="#ff8a3d"/>
+    </g>
+  </svg>
+
+  <div id="hud" style="display:none">
+    <span class="pill">得分 <b id="score">0</b></span>
+    <span class="pill">等级 <b id="level">1</b></span>
+    <button class="hbtn" id="pbtn" style="margin-left:auto">⏸ 暂停</button>
+    <button class="hbtn" id="qbtn">⏹ 退出</button>
+    <span class="pill">STRIKE <span class="dotrow" id="strikes"></span></span>
+    <span class="pill">OUT <span class="dotrow" id="outs"></span></span>
+    <span class="pill" id="catlabel" style="color:var(--purple)"></span>
+  </div>
+  <div id="combo">COMBO ×1</div>
+
+  <div id="zone"><div class="zl">STRIKE ZONE</div></div>
+
+  <div id="robo">
+    <svg width="118" viewBox="0 0 220 170">
+      <rect x="100" y="80" width="10" height="80" rx="4" fill="#b8c4d6"/>
+      <rect x="70" y="148" width="70" height="10" rx="5" fill="#b8c4d6"/>
+      <rect x="20" y="26" width="180" height="60" rx="14" fill="#2e3d52" stroke="#ffffff" stroke-width="4"/>
+      <rect x="28" y="34" width="164" height="14" rx="7" fill="#42526b"/>
+      <circle class="eyec" id="eye" cx="110" cy="60" r="14" fill="#19c8a6"/>
+      <circle cx="110" cy="60" r="5.5" fill="#eafff8"/>
+      <text x="110" y="104" font-size="13" fill="#2e3d52" text-anchor="middle" font-weight="bold">ABS 机器人裁判</text>
+    </svg>
+  </div>
+  <div id="verdict"></div>
+
+  <div id="ballwrap" style="display:none"><div id="wordball">
+    <div class="ball"><div class="w" id="bw"></div></div><div class="zh" id="bzh"></div>
+  </div></div>
+
+  <div id="opts" style="display:none"></div>
+  <div id="banner"></div>
+  <canvas id="fx" width="420" height="840"></canvas>
+
+  <!-- 开始界面 -->
+  <div class="overlay" id="start">
+    <div class="badge">📕 剑桥雅思阅读《考点词真经》· 趣味训练场</div>
+    <h1>⚾ 考点词<br><span class="rainbow">同义替换全垒打!</span></h1>
+    <div class="sub">
+      考点词正飞向好球区!在机器人裁判喊出 “STRIKE” 之前,<br>点中它的<b style="color:var(--orange)">同义替换词</b>击球得分!<br>
+      连击 ×5 触发 <b style="color:var(--pink)">HOME RUN</b> · 答错或漏球 = STRIKE<br>3 STRIKE = 1 OUT · 2 OUT 比赛结束
+    </div>
+    <div style="font-size:15px;font-weight:800;color:var(--ink);margin-top:12px">① 选择词库</div>
+    <div id="cats">
+      <button class="cat" data-cat="1">第1类考点词</button>
+      <button class="cat" data-cat="2">第2类考点词</button>
+      <button class="cat" data-cat="3">第3类考点词</button>
+      <button class="cat sel" data-cat="0">🌈 全部混合</button>
+    </div>
+    <div style="font-size:15px;font-weight:800;color:var(--ink);margin-bottom:10px">② 选择球速,开赛!</div>
+    <div id="spds">
+      <button class="btn bt" data-spd="1">🐢 慢速热身</button>
+      <button class="btn bo" data-spd="2">⚾ 标准比赛</button>
+      <button class="btn bp" data-spd="3">🔥 地狱快投</button>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap;justify-content:center">
+      <span class="bestpill">🏆 历史最高:<span id="bestscore" style="color:var(--orange)">0</span> 分</span>
+      <button class="btn bv small" id="showrecs">📜 游戏记录</button>
+    </div>
+  </div>
+
+  <!-- 结束界面 -->
+  <div class="overlay" id="end" style="display:none">
+    <div class="grade" id="grade">S</div>
+    <h1 style="font-size:25px">比赛结束!得分 <span style="color:var(--orange)" id="fscore">0</span></h1>
+    <div class="sub" id="fstat"></div>
+    <div id="review"></div>
+    <div style="display:flex;gap:12px;margin-top:16px;align-items:center">
+      <button class="btn bo" id="again">再来一局 ⚾</button>
+      <button class="btn bv small" id="back">返回主页</button>
+    </div>
+  </div>
+
+  <!-- 暂停界面 -->
+  <div class="overlay" id="pauseov" style="display:none">
+    <div class="panel" style="text-align:center">
+      <h1 style="font-size:28px">⏸ 比赛暂停</h1>
+      <div class="sub" id="pstat" style="margin:8px 0 18px"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:center">
+        <button class="btn bt" style="width:80%">▶ 继续比赛</button>
+        <button class="btn bo" style="width:80%">🔁 重新开始</button>
+        <button class="btn bp" style="width:80%">⏹ 退出并结算</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 游戏记录 -->
+  <div class="overlay" id="recsov" style="display:none">
+    <div class="panel">
+      <h1 style="font-size:24px;text-align:center">📜 游戏记录</h1>
+      <div class="sub" id="recbest" style="text-align:center;margin:6px 0 10px"></div>
+      <div style="max-height:330px;overflow:auto;-webkit-overflow-scrolling:touch"><table class="rtable" id="rtable"></table></div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:14px">
+        <button class="btn bv small" id="closerecs">关闭</button>
+        <button class="btn bp small" id="clearrecs">🗑 清空记录</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="mute">🔊 音效:开</button>
+  <div class="credit">《考点词真经》× Claude Fable 5 ⚡</div>
+</div>
+</div>
+
+<script>
+/* ============ 词库:《剑桥雅思阅读考点词真经》 [考点词, 同义替换, 中文, 类别] ============ */
+const BANK=[
+// ---------- 第1类考点词 ----------
+['resemble','look like','与…相似',1],['recognize','identify','认出;承认',1],['adjust','modify','调整',1],
+['approach','method','方法',1],['fundamental','basic','基本的',1],['rely on','depend on','依靠',1],
+['domestic','household','家庭的;国内的',1],['measure','assess','衡量;测量',1],['trait','characteristic','特征',1],
+['coin','invent','创造(新词)',1],['artificial','man-made','人造的',1],['prompt','spur','促使',1],
+['exchange','swap','交换',1],['underlie','be the basis of','是…的基础',1],['ignore','overlook','忽视',1],
+['rather than','instead of','而不是',1],['thanks to','due to','由于;多亏',1],
+// ---------- 第2类考点词 ----------
+['diversity','variety','多样性',2],['detect','spot','察觉;发现',2],['isolate','separate','隔离',2],
+['avoid','prevent','避免',2],['budget','fund','预算;经费',2],['adapt to','adjust to','适应',2],
+['alternative','substitute','替代选择',2],['compensate','make up for','弥补',2],['component','part','组成部分',2],
+['criteria','benchmarks','标准',2],['curriculum','course','课程',2],['feasible','practicable','可行的',2],
+['constrain','restrict','限制',2],['deficiency','shortage','缺乏',2],['supplement','addition','补充',2],
+['distinguish','differentiate','区分',2],['analyze','examine','分析',2],['emphasize','highlight','强调',2],
+['enormous','huge','巨大的',2],['imitate','mimic','模仿',2],['impair','damage','损害',2],
+['hinder','hamper','阻碍',2],['legitimate','legal','合法正当的',2],['limitation','restriction','局限',2],
+['convention','tradition','惯例',2],['demanding','challenging','要求高的',2],['determine','decide','决定',2],
+['accelerate','speed up','加速',2],['ancient','very old','古老的',2],['beneficial','helpful','有益的',2],
+['chronic','long-term','慢性的',2],['conscious','aware','意识到的',2],['minimize','reduce','使最小化',2],
+['immunity','resistance','免疫力',2],['imperative','essential','必要的',2],['secrete','release','分泌',2],
+['exaggerate','overstate','夸大',2],['transmit','pass on','传播',2],['extinct','died out','灭绝的',2],
+['exclusive','sole','独有的',2],['guarantee','ensure','保证',2],['witness','see','目睹',2],
+['option','choice','选择',2],['prefer to','would rather','更愿意',2],['primary','main','主要的',2],
+['principle','rule','原则',2],['potential','possible','潜在的',2],['quantity','amount','数量',2],
+['settle','inhabit','定居',2],['sophisticated','advanced','精密复杂的',2],['specific','particular','特定的',2],
+['survive','live on','存活',2],['swift','rapid','迅速的',2],['unexpectedly','surprisingly','出乎意料地',2],
+['surrounding','nearby','周围的',2],['attempt','try','尝试',2],['expertise','know-how','专业知识',2],
+['faculty','ability','官能;能力',2],['donate','contribute','捐赠',2],['incentive','motivation','激励',2],
+['mortality','death rate','死亡率',2],['peripheral','marginal','边缘次要的',2],['vicinity','neighbourhood','附近',2],
+['threaten','endanger','威胁',2],['practice','custom','惯常做法',2],['bacteria','germs','细菌',2],
+['be subject to','be affected by','受…影响',2],['be liable to','be likely to','易于…',2],['innate','inborn','天生的',2],
+['pattern','regularity','模式',2],['therapy','treatment','疗法',2],['original','initial','最初的',2],
+['confidential','secret','机密的',2],['cognitive','mental','认知的',2],['comply with','follow','遵守',2],
+['consult','seek advice','咨询',2],['superior','better','更优的',2],['co-operation','collaboration','合作',2],
+['co-ordinate','organise','协调',2],['differ','vary','不同',2],['cue','signal','提示;信号',2],
+['abandon','give up','放弃',2],['halt','stop','停止',2],['fragile','delicate','脆弱的',2],
+['retain','keep','保留',2],['vanish','disappear','消失',2],['erode','wear away','侵蚀',2],
+['induce','bring about','引起',2],['stable','steady','稳定的',2],['integrate','combine','整合',2],
+['equal','identical','相等的',2],['grant','funding','拨款',2],
+// ---------- 第3类考点词 ----------
+['accumulate','build up','积累',3],['addictive','habit-forming','使人上瘾的',3],['adversity','hardship','逆境',3],
+['aggression','hostility','攻击性',3],['aid','help','帮助',3],['altitude','height','海拔',3],
+['approve','endorse','批准',3],['array','a range of','一系列',3],['assign','allocate','分配',3],
+['attitude','view','态度;看法',3],['boundary','border','边界',3],['burden','load','负担',3],
+['calamity','disaster','灾难',3],['capacity','ability to hold','容量;能力',3],['catastrophic','disastrous','灾难性的',3],
+['certify','confirm','证明',3],['conceal','hide','隐藏',3],['concentrate','focus','集中',3],
+['concur','agree','同意',3],['conflict','clash','冲突',3],['confuse','mix up','混淆',3],
+['conservative','cautious','保守的',3],['considerable','substantial','相当大的',3],['controversial','disputed','有争议的',3],
+['correlation','link','相关性',3],['crash','collision','碰撞',3],['credibility','trustworthiness','可信度',3],
+['crisis','emergency','危机',3],['criticism','disapproval','批评',3],['curb','limit','抑制',3],
+['deadline','time limit','截止期限',3],['delay','postpone','推迟',3],['depression','low mood','抑郁',3],
+['devastate','destroy','摧毁',3],['disclose','reveal','披露',3],['disparate','very different','迥异的',3],
+['display','exhibit','展示',3],['disrupt','disturb','扰乱',3],['distract','divert','使分心',3],
+['distribute','spread','分发;分布',3],['domain','field','领域',3],['dominant','leading','占主导的',3],
+['dramatic','striking','显著的',3],['drought','water shortage','干旱',3],['durable','long-lasting','耐用的',3],
+['elaborate','detailed','精心复杂的',3],['elderly','aged','年长的',3],['eliminate','remove','消除',3],
+['elusive','hard to find','难以捉摸的',3],['entrepreneur','businessman','企业家',3],['established','accepted','公认的',3],
+['ethical','moral','道德的',3],['eventually','finally','最终',3],['evidence','proof','证据',3],
+['evolve','develop','演变',3],['exceptional','outstanding','杰出的',3],['exhausted','worn out','精疲力竭的',3],
+['explicit','clear','明确的',3],['exploit','utilise','利用',3],['extend','expand','延伸扩展',3],
+['extract','take out','提取',3],['famine','food shortage','饥荒',3],['finite','limited','有限的',3],
+['foe','enemy','敌人',3],['fragment','piece','碎片',3],['fulfill','achieve','实现',3],
+['gifted','talented','有天赋的',3],['habitat','natural home','栖息地',3],['harsh','severe','严酷的',3],
+['hypothesis','theory','假说',3],['impact','effect','影响',3],['impressive','remarkable','令人赞叹的',3],
+['inaccurate','wrong','不准确的',3],['inactive','idle','不活跃的',3],['intense','strong','强烈的',3],
+['interior','inside','内部的',3],['introverted','shy','内向的',3],['keen','eager','热衷的',3],
+['lack','absence','缺乏',3],['landscape','scenery','风景',3],['likelihood','probability','可能性',3],
+['mainly','mostly','主要地',3],['malfunction','breakdown','故障',3],['manifest','show','显现',3],
+['manufacture','produce','制造',3],['marine','ocean','海洋的',3],['mate','partner','配偶',3],
+['mechanism','system','机制',3],['migrate','move','迁徙',3],['moisture','dampness','湿气',3],
+['monitor','observe','监测',3],['native','indigenous','本土的',3],['nocturnal','night-active','夜间活动的',3],
+['norm','standard','规范',3],['objective','goal','目标',3],['obligation','duty','义务',3],
+['obscure','little-known','鲜为人知的',3],['obtain','acquire','获得',3],['odd','strange','奇怪的',3],
+['odour','smell','气味',3],['optimum','best','最佳的',3],['ordinary','common','普通的',3],
+['overcome','conquer','克服',3],['paralyse','disable','使瘫痪',3],['paramount','supreme','至关重要的',3],
+['participate','take part','参与',3],['peak','summit','顶峰',3],['permit','allow','允许',3],
+['persuade','convince','说服',3],['pessimistic','negative','悲观的',3],['phase','stage','阶段',3],
+['physical','bodily','身体的',3],['plagiarise','copy','剽窃',3],['plenty of','abundant','大量的',3],
+['portable','movable','便携的',3],['poverty','deprivation','贫困',3],['praise','compliment','赞扬',3],
+['predict','forecast','预测',3],['pressing','urgent','紧迫的',3],['private','personal','私人的',3],
+['prohibit','ban','禁止',3],['prolong','lengthen','延长',3],['promote','encourage','促进',3],
+['prosper','thrive','繁荣',3],['purify','clean','净化',3],['qualify','be eligible','有资格',3],
+['radical','extreme','激进的',3],['range','scope','范围',3],['rare','scarce','稀有的',3],
+['react','respond','反应',3],['reduction','decrease','减少',3],['reject','refuse','拒绝',3],
+['relevant','related','相关的',3],['reluctant','unwilling','不情愿的',3],['reproduce','breed','繁殖',3],
+['responsible','accountable','负责的',3],['revive','bring back','复兴',3],['ruin','wreck','毁坏',3],
+['scenic','picturesque','风景优美的',3],['skepticism','doubt','怀疑态度',3],['soar','surge','猛增',3],
+['solely','only','仅仅',3],['steer','guide','引导',3],['stimulate','spur on','刺激',3],
+['subtle','slight','微妙的',3],['substance','material','物质',3],['supersede','replace','取代',3],
+['suppress','restrain','压制',3],['supremacy','dominance','至高地位',3],['suspicious','doubtful','怀疑的',3],
+['sustainable','eco-friendly','可持续的',3],['symptom','sign','症状',3],['tension','stress','紧张',3],
+['trace','track','追踪',3],['transcend','go beyond','超越',3],['tremendous','massive','巨大的',3],
+['trigger','set off','引发',3],['unbiased','impartial','公正客观的',3],['uniform','consistent','一致的',3],
+['valuable','precious','宝贵的',3],['versatile','flexible','用途广泛的',3],['violent','fierce','暴力猛烈的',3],
+['visible','noticeable','可见的',3],['well-being','welfare','幸福安康',3],
+];
+/* ============ 音效(WebAudio 合成) ============ */
+let AC=null,muted=false;
+function ac(){if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();return AC}
+/* 移动端浏览器要求用户手势后才能出声:首次触摸时解锁 */
+function unlockAudio(){try{const a=ac();if(a.state==='suspended')a.resume()}catch(e){}}
+document.addEventListener('touchstart',unlockAudio,{once:true});
+document.addEventListener('pointerdown',unlockAudio,{once:true});
+function beep(f,d,type='square',v=.15,slide=0){if(muted)return;const a=ac(),o=a.createOscillator(),g=a.createGain();
+  o.type=type;o.frequency.value=f;if(slide)o.frequency.linearRampToValueAtTime(f+slide,a.currentTime+d);
+  g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);
+  o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d)}
+function crack(){if(muted)return;const a=ac(),n=a.sampleRate*.12,b=a.createBuffer(1,n,a.sampleRate),x=b.getChannelData(0);
+  for(let i=0;i<n;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/n,2.2);
+  const s=a.createBufferSource(),g=a.createGain();s.buffer=b;g.gain.value=.5;s.connect(g);g.connect(a.destination);s.start();
+  beep(880,.18,'triangle',.2,300)}
+function cheer(){if(muted)return;const a=ac(),n=a.sampleRate*.9,b=a.createBuffer(1,n,a.sampleRate),x=b.getChannelData(0);
+  for(let i=0;i<n;i++){const t=i/n;x[i]=(Math.random()*2-1)*.35*Math.sin(Math.PI*t)}
+  const s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();f.type='bandpass';f.frequency.value=1200;
+  s.buffer=b;s.connect(f);f.connect(g);g.gain.value=.5;g.connect(a.destination);s.start()}
+function buzz(){beep(160,.3,'sawtooth',.18,-60);beep(110,.34,'square',.12)}
+/* ============ 粒子特效 ============ */
+const fx=document.getElementById('fx'),fc=fx.getContext('2d');let parts=[];
+function burst(x,y,colors,n=45,pw=8){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=3+Math.random()*7;
+  parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-3,life:1,c:colors[i%colors.length],s:3+Math.random()*pw})}}
+(function loop(){fc.clearRect(0,0,420,840);
+  parts=parts.filter(p=>p.life>0);
+  for(const p of parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.life-=.022;
+    fc.globalAlpha=Math.max(p.life,0);fc.fillStyle=p.c;
+    fc.beginPath();fc.arc(p.x,p.y,Math.max(p.s*p.life,0.1),0,7);fc.fill()}
+  fc.globalAlpha=1;requestAnimationFrame(loop)})();
+const CONF=['#ff8a3d','#ff5d8f','#19c8a6','#ffc93c','#8e6bff','#ffffff'];
+/* ============ 游戏状态 ============ */
+const $=id=>document.getElementById(id);
+const stage=$('stage'),ballwrap=$('ballwrap'),opts=$('opts');
+let deck=[],pool=BANK,cat=0,cur=null,raf=null,t0=0,dur=3200,playing=false,accept=false;
+let score=0,combo=0,best=0,hits=0,miss=0,strikes=0,outsN=0,level=1,spdBase=2,missed=[];
+/* 暂停状态 + 可暂停的计划任务 */
+let paused=false,flightElapsed=0,pendT=null,pendFn=null,pendAt=0,pendRemain=0;
+function schedule(fn,ms){clearPend();pendFn=fn;pendAt=performance.now()+ms;
+  pendT=setTimeout(()=>{pendFn=null;pendT=null;fn()},ms)}
+function clearPend(){if(pendT){clearTimeout(pendT);pendT=null}}
+/* 游戏记录(localStorage) */
+const RKEY='kdc_baseball_records_v1';
+let recs=[];try{recs=JSON.parse(localStorage.getItem(RKEY)||'[]')}catch(e){recs=[]}
+const SPDN={1:'🐢 慢速',2:'⚾ 标准',3:'🔥 地狱'};
+function bestScore(){return recs.reduce((m,r)=>Math.max(m,r.score),0)}
+function updateBest(){$('bestscore').textContent=bestScore()}
+function fmtT(t){const d=new Date(t),p=n=>String(n).padStart(2,'0');
+  return `${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`}
+function renderRecs(){
+  $('recbest').innerHTML=recs.length
+    ?`共 <b>${recs.length}</b> 场 · 历史最高 <b style="color:var(--orange)">${bestScore()}</b> 分`
+    :'还没有比赛记录,快去打一场吧!⚾';
+  $('rtable').innerHTML=recs.length
+    ?'<tr><th>时间</th><th>词库</th><th>球速</th><th>得分</th><th>评级</th><th>命中率</th><th>最高连击</th></tr>'+
+     recs.map(r=>`<tr><td>${fmtT(r.t)}</td><td>${CATNAMES[r.cat]}</td><td>${SPDN[r.spd]}</td>
+       <td class="gold">${r.score}</td><td>${r.grade}</td><td>${r.acc}%</td><td>×${r.best}</td></tr>`).join('')
+    :'';
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function hud(){$('score').textContent=score;$('level').textContent=level;
+  $('strikes').innerHTML=[0,1,2].map(i=>`<span class="ld ${i<strikes?'on':''}"></span>`).join('');
+  $('outs').innerHTML=[0,1].map(i=>`<span class="ld ${i<outsN?'on':''}"></span>`).join('');
+  const c=$('combo');c.textContent='COMBO ×'+Math.max(combo,1);c.style.opacity=combo>1?1:0}
+function eye(color){$('eye').setAttribute('fill',color);
+  document.querySelector('#robo .eyec').style.setProperty('--ec',color)}
+function verdict(txt,bg,fg){const v=$('verdict');v.textContent=txt;v.style.background=bg;v.style.color=fg;
+  v.classList.add('show');setTimeout(()=>v.classList.remove('show'),900)}
+function banner(txt){const b=$('banner');b.textContent=txt;b.classList.add('show');
+  setTimeout(()=>b.classList.remove('show'),1200)}
+function fscorePop(x,y,txt){const d=document.createElement('div');d.className='fscore';d.textContent=txt;
+  d.style.left=x+'px';d.style.top=y+'px';stage.appendChild(d);setTimeout(()=>d.remove(),1000)}
+/* ============ 发球与击球 ============ */
+function nextPitch(){
+  if(!playing)return;
+  if(deck.length===0)deck=shuffle(pool.slice());
+  cur=deck.pop();
+  // 干扰项:排除同答案 / 同中文释义 / 与题面或答案撞词的条目
+  const wrong=shuffle(BANK.filter(e=>e!==cur&&e[1]!==cur[1]&&e[2]!==cur[2]&&e[1]!==cur[0]&&e[0]!==cur[1]))
+    .slice(0,2).map(e=>e[1]);
+  const choices=shuffle([cur[1],...wrong]);
+  opts.innerHTML=choices.map((c,i)=>
+    `<button class="opt" data-ok="${c===cur[1]?1:0}"><span class="key">${i+1}</span>${c}</button>`).join('');
+  opts.style.display='flex';
+  [...opts.children].forEach(b=>b.onclick=()=>swing(b));
+  $('bw').textContent=cur[0];$('bzh').textContent=cur[2];
+  ballwrap.style.display='block';
+  dur=Math.max(1400,(spdBase===1?4200:spdBase===2?3300:2400)-(level-1)*260);
+  t0=performance.now();accept=true;
+  beep(620,.08,'sine',.1);
+  cancelAnimationFrame(raf);raf=requestAnimationFrame(fly);
+}
+function fly(now){
+  if(!playing||!accept||paused)return;
+  const p=Math.min((now-t0)/dur,1);
+  const ease=p*p*(3-2*p);
+  const x=210,y=330+ease*230,s=.3+ease*.8;
+  ballwrap.style.transform=`translate(${x}px,${y}px) scale(${s})`;
+  if(p>=1){strikeCall();return}
+  raf=requestAnimationFrame(fly);
+}
+function swing(btn){
+  if(!accept||paused)return;accept=false;cancelAnimationFrame(raf);
+  const ok=btn.dataset.ok==='1';
+  [...opts.children].forEach(b=>{if(b.dataset.ok==='1')b.classList.add('good')});
+  if(ok){
+    combo++;hits++;best=Math.max(best,combo);
+    const gain=100*combo;score+=gain;
+    crack();burst(210,560,CONF);
+    eye('#19c8a6');verdict('HIT! 安打!','#19c8a6','#fff');
+    fscorePop(210,495,'+'+gain);
+    ballwrap.style.transition='transform .55s ease-in';
+    ballwrap.style.transform=`translate(${60+Math.random()*300}px,-120px) scale(.22) rotate(540deg)`;
+    setTimeout(()=>{ballwrap.style.transition='';ballwrap.style.display='none'},560);
+    if(combo%5===0){score+=500;banner('🎉 HOME RUN! +500');cheer();burst(210,340,CONF,80,11);
+      level++;eye('#ffc93c');fscorePop(290,400,'+500')}
+    hud();
+    schedule(nextPitch,combo%5===0?1500:850);
+  }else{
+    btn.classList.add('bad');
+    strikeCall();
+  }
+}
+function strikeCall(){
+  accept=false;cancelAnimationFrame(raf);
+  combo=0;miss++;strikes++;
+  if(cur&&!missed.some(m=>m[0]===cur[0]))missed.push(cur);
+  buzz();eye('#ff5d8f');verdict('STRIKE!','#ff5d8f','#fff');
+  stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),380);
+  ballwrap.style.display='none';
+  if(strikes>=3){strikes=0;outsN++;banner('OUT!');beep(220,.5,'sawtooth',.2,-80)}
+  hud();
+  if(outsN>=2){schedule(gameOver,1100);return}
+  schedule(nextPitch,1050);
+}
+/* ============ 开始 / 结束 ============ */
+const CATNAMES={0:'🌈 全部混合',1:'第1类考点词',2:'第2类考点词',3:'第3类考点词'};
+function startGame(spd){
+  unlockAudio();
+  spdBase=spd;pool=cat===0?BANK:BANK.filter(e=>e[3]===cat);
+  score=0;combo=0;best=0;hits=0;miss=0;strikes=0;outsN=0;level=1;missed=[];deck=shuffle(pool.slice());
+  paused=false;clearPend();pendFn=null;cancelAnimationFrame(raf);
+  $('pauseov').style.display='none';$('recsov').style.display='none';
+  $('catlabel').textContent=CATNAMES[cat]+' · '+pool.length+'词';
+  $('start').style.display='none';$('end').style.display='none';
+  $('hud').style.display='flex';playing=true;hud();eye('#19c8a6');
+  banner('PLAY BALL!');beep(660,.12,'sine',.15);beep(880,.18,'sine',.15);
+  schedule(nextPitch,900);
+}
+/* ============ 暂停 / 继续 / 退出 ============ */
+function pause(){
+  if(!playing||paused)return;paused=true;
+  if(accept){flightElapsed=performance.now()-t0;cancelAnimationFrame(raf)}
+  if(pendT){pendRemain=Math.max(0,pendAt-performance.now());clearTimeout(pendT);pendT=null}
+  $('pstat').innerHTML=`当前得分 <b style="color:var(--orange)">${score}</b> · 安打 <b style="color:var(--teal)">${hits}</b> · 三振 <b style="color:var(--pink)">${miss}</b> · 等级 <b>${level}</b>`;
+  $('pauseov').style.display='flex';beep(440,.1,'sine',.12);
+}
+function resume(){
+  if(!paused)return;paused=false;$('pauseov').style.display='none';beep(660,.1,'sine',.12);
+  if(accept){t0=performance.now()-flightElapsed;raf=requestAnimationFrame(fly)}
+  else if(pendFn){const f=pendFn;schedule(f,pendRemain)}
+}
+function quitGame(){
+  $('pauseov').style.display='none';paused=false;
+  clearPend();pendFn=null;accept=false;cancelAnimationFrame(raf);
+  gameOver();
+}
+function gameOver(){
+  playing=false;opts.style.display='none';ballwrap.style.display='none';
+  const total=hits+miss,acc=total?Math.round(hits/total*100):0;
+  const g=score>=8000?'S':score>=5000?'A':score>=3000?'B':score>=1500?'C':'D';
+  /* 保存游戏记录 */
+  const prevBest=bestScore();
+  recs.unshift({t:Date.now(),cat,spd:spdBase,score,grade:g,acc,best,hits,miss});
+  recs=recs.slice(0,30);
+  try{localStorage.setItem(RKEY,JSON.stringify(recs))}catch(e){}
+  updateBest();
+  const newRec=score>prevBest&&prevBest>0?'<b style="color:var(--pink)">🏅 新纪录!</b> ':'';
+  $('grade').textContent=g;$('fscore').textContent=score;
+  $('fstat').innerHTML=`${newRec}安打 <b style="color:var(--teal)">${hits}</b> · 三振 <b style="color:var(--pink)">${miss}</b> · 命中率 <b style="color:var(--orange)">${acc}%</b> · 最高连击 <b style="color:var(--purple)">×${best}</b> · 达到等级 <b>${level}</b><br>${missed.length?'👇 这些考点词没接住,背完再战:':'🏆 零失误!考点词大师就是你!'}`;
+  $('review').innerHTML=missed.map(m=>`<span class="rv"><b>${m[0]}</b> ↔ ${m[1]} <span style="color:#5a7396">${m[2]}</span></span>`).join('');
+  $('end').style.display='flex';
+  if(g==='S'||g==='A')cheer();
+}
+document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.cat').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');cat=+b.dataset.cat;beep(740,.07,'sine',.12)});
+document.querySelectorAll('#spds .btn').forEach(b=>b.onclick=()=>startGame(+b.dataset.spd));
+$('again').onclick=()=>startGame(spdBase);
+$('back').onclick=()=>{$('end').style.display='none';$('start').style.display='flex';$('hud').style.display='none'};
+$('mute').onclick=()=>{muted=!muted;$('mute').textContent=muted?'🔇 音效:关':'🔊 音效:开'};
+/* 暂停 / 退出 / 记录 按钮 */
+$('pbtn').onclick=pause;
+$('qbtn').onclick=pause;            // 退出先进入暂停菜单确认,防误触
+const pbtns=document.querySelectorAll('#pauseov .btn');
+pbtns[0].onclick=resume;
+pbtns[1].onclick=()=>{paused=false;clearPend();pendFn=null;startGame(spdBase)};
+pbtns[2].onclick=quitGame;
+$('showrecs').onclick=()=>{renderRecs();$('recsov').style.display='flex'};
+$('closerecs').onclick=()=>$('recsov').style.display='none';
+$('clearrecs').onclick=()=>{recs=[];try{localStorage.removeItem(RKEY)}catch(e){};renderRecs();updateBest()};
+/* 桌面浏览器仍可用键盘:1/2/3 击球,P/Esc 暂停 */
+document.addEventListener('keydown',e=>{
+  if(e.key==='p'||e.key==='P'||e.key==='Escape'){
+    if(playing){paused?resume():pause()}
+    return;
+  }
+  if(!playing||!accept||paused)return;
+  const i={'1':0,'2':1,'3':2}[e.key];
+  if(i!==undefined&&opts.children[i])swing(opts.children[i]);
+});
+updateBest();
+/* ============ 自适应缩放:竖屏 420×840 设计稿,等比缩放铺满手机屏 ============ */
+function fit(){
+  const vw=window.visualViewport?visualViewport.width:innerWidth;
+  const vh=window.visualViewport?visualViewport.height:innerHeight;
+  const s=Math.min(vw/420,vh/840);
+  stage.style.transform=`scale(${s})`;
+}
+addEventListener('resize',fit);
+addEventListener('orientationchange',()=>setTimeout(fit,200));
+if(window.visualViewport)visualViewport.addEventListener('resize',fit);
+fit();
+</script>
+</body>
+</html>
